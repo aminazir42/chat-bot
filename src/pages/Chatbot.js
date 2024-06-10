@@ -1,21 +1,21 @@
 "use client";
 import React, { useState } from 'react';
 import axios from 'axios';
+import ChatInput from '../components/ChatInput';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [documentText, setDocumentText] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
-
-    const newMessages = [...messages, { text: input, from: 'user' }];
+  const handleSend = async (message) => {
+    const newMessages = [...messages, { text: message, from: 'user' }];
     setMessages(newMessages);
     setInput('');
 
     try {
-      const response = await axios.post('/api/query', { query: input });
+      const response = await axios.post('/api/query', { query: message });
       setMessages([...newMessages, { text: response.data.answer, from: 'bot' }]);
     } catch (error) {
       console.error('Error querying the AI:', error);
@@ -39,23 +39,33 @@ const Chatbot = () => {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+  };
+
+  const handleToggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
-    <div className="chat-container">
-      <div className="messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.from}`}>
-            {msg.text}
-          </div>
-        ))}
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <div className="max-w-3xl mx-auto p-4">
+        <div className="mb-4">
+          {messages.map((msg, index) => (
+            <div key={index} className={`p-2 my-2 ${msg.from === 'user' ? 'text-right' : 'text-left'}`}>
+              {msg.text}
+            </div>
+          ))}
+        </div>
+        <ChatInput
+          onSend={handleSend}
+          onAttach={handleFileUpload}
+          onNewChat={handleNewChat}
+          onToggleTheme={handleToggleTheme}
+          isDarkMode={isDarkMode}
+        />
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-      />
-      <button onClick={handleSend}>Send</button>
-      <input type="file" onChange={handleFileUpload} />
     </div>
   );
 };

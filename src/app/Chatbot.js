@@ -1,20 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
-import { Input, Button, Flex, Box, Text, useColorMode, IconButton, InputGroup, InputRightElement } from '@chakra-ui/react';
-import { FiSend, FiPaperclip } from 'react-icons/fi';
+"use client";
+import React, { useState } from 'react';
 import axios from 'axios';
+import { FiSend, FiPaperclip } from 'react-icons/fi';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [documentText, setDocumentText] = useState('');
-  const { colorMode, toggleColorMode } = useColorMode();
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(scrollToBottom, [messages]);
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -49,55 +42,43 @@ const Chatbot = () => {
   };
 
   return (
-    <Box className="chat-container" bg={colorMode === 'dark' ? 'gray.800' : 'gray.100'} p={4} borderRadius="md">
-      <Flex justify="flex-end">
-        <IconButton onClick={toggleColorMode} icon={colorMode === 'dark' ? 'sun' : 'moon'} aria-label="Toggle dark mode" />
-      </Flex>
-      <Box flex="1" overflowY="auto" pb={4}>
+    <div className={`chat-container ${darkMode ? 'dark' : ''}`}>
+      <div className="header">
+        <div className="chatbot-title">Chatbot</div>
+        <button onClick={() => setDarkMode(!darkMode)} className="toggle-button">
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
+      </div>
+      <div className="messages">
         {messages.map((msg, index) => (
-          <Box
-            key={index}
-            borderRadius="md"
-            bg={msg.from === 'user' ? 'blue.500' : colorMode === 'dark' ? 'gray.700' : 'gray.200'}
-            color={msg.from === 'user' ? 'white' : 'inherit'}
-            alignSelf={msg.from === 'user' ? 'flex-end' : 'flex-start'}
-            p={2}
-            my={2}
-          >
+          <div key={index} className={`message ${msg.from}`}>
             {msg.text}
-          </Box>
+          </div>
         ))}
-        <div ref={messagesEndRef} />
-      </Box>
-      <Flex align="center">
-        <Input
+      </div>
+      <div className="input-container">
+        <input
           type="file"
-          display="none"
           onChange={handleFileUpload}
+          className="file-input"
           id="file-upload"
         />
-        <label htmlFor="file-upload">
-          <IconButton as="span" icon={<FiPaperclip />} aria-label="Attach File" />
+        <label htmlFor="file-upload" className="file-label">
+          <FiPaperclip />
         </label>
-        <InputGroup flex="1">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Type your message..."
-            variant="filled"
-            size="md"
-            borderRadius="md"
-            bg={colorMode === 'dark' ? 'gray.700' : 'white'}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleSend} colorScheme="blue">
-              <FiSend />
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </Flex>
-    </Box>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+          className="text-input"
+          placeholder="Type your message..."
+        />
+        <button onClick={handleSend} className="send-button">
+          <FiSend />
+        </button>
+      </div>
+    </div>
   );
 };
 

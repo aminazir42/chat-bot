@@ -6,7 +6,7 @@ import './globals.css';
 const HomePage = () => {
   return (
     <div className="homepage">
-      <h1>Welcome to My Chatbot</h1>
+      <h1>Chatbot</h1>
       <Chatbot />
     </div>
   );

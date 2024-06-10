@@ -1,49 +1,42 @@
+
 .chat-container {
   position: fixed;
-  bottom: 0; /* Align to the bottom */
-  right: 0; /* Align to the right */
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 600px;
-  border: 1px solid #ccc;
+  height: 100%;
+  max-width: 800%; 
+  margin: 0 auto;
   border-radius: 5px;
   overflow: hidden;
   background-color: #f0f0f0;
-  transition: transform 0.3s ease; /* Add transition for smoother animation */
-  transform: translateY(100%); /* Initially move container out of the screen */
+  display: flex;
+  flex-direction: column;
 }
 
-.chat-container.visible {
-  transform: translateY(0); /* Move container into the screen */
-}
-
+/* Header */
 .header {
   display: flex;
-  justify-content: space-between; /* Changed to space-between */
-  padding: 10px;
-  background-color: #007bff;
+  justify-content: space-between; /* Adjusted to space between */
+  align-items: center;
+  padding: 20px;
+  background-color: #1a1a1a; /* Dark background */
   color: white;
 }
 
 .chatbot-title {
   font-weight: bold;
+  font-size: 24px;
 }
 
-.toggle-button {
-  padding: 10px;
-  cursor: pointer;
-  background-color: transparent;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
+/* Messages container */
 .messages {
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
-  background-color: #f0f0f0;
 }
 
+/* Individual message */
 .message {
   padding: 10px;
   margin-bottom: 10px;
@@ -61,13 +54,15 @@
   align-self: flex-start;
 }
 
+/* Input container */
 .input-container {
   display: flex;
   align-items: center;
-  padding: 10px;
-  background-color: #fff;
+  padding: 20px;
+  background-color: #f0f0f0; /* Lighter background */
 }
 
+/* File input */
 .file-input {
   display: none;
 }
@@ -78,45 +73,46 @@
   font-size: 24px;
 }
 
+/* Text input */
 .text-input {
   flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 15px;
+  border: none; /* Removed border */
+  border-radius: 30px; /* Rounded input */
+  background-color: white; /* Input background */
   margin-right: 10px;
+  font-size: 18px;
 }
 
+/* Send button */
 .send-button {
-  padding: 10px 20px;
+  padding: 15px 30px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #007bff; /* Blue color */
   color: white;
   border: none;
+  border-radius: 30px; /* Rounded button */
+  font-size: 18px;
+}
+
+/* History styles */
+.history {
+  margin-bottom: 20px;
+}
+
+.history-list {
+  margin-top: 10px;
+}
+
+.history-item {
+  padding: 10px;
   border-radius: 5px;
+  background-color: #ddd;
+  margin-bottom: 10px;
 }
 
-.dark {
-  background-color: #333;
-  color: white;
-}
-
-.dark .messages {
-  background-color: #444;
-}
-
-.dark .message.bot {
-  background-color: #666;
-}
-
-.dark .text-input,
-.dark .send-button,
-.dark .toggle-button {
-  background-color: #555;
-  color: white;
-}
-
-.dark .file-label {
-  color: white;
+.history-item p {
+  margin: 0;
 }
 
 /* Media queries for responsive design */
@@ -126,29 +122,21 @@
     width: 100%;
   }
 
-  .toggle-button {
-    font-size: 12px;
-  }
-
   .file-label {
     font-size: 18px;
   }
 
   .text-input {
     font-size: 14px;
-    padding: 8px;
+    padding: 10px;
   }
 
   .send-button {
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 14px;
   }
 
   .message {
     font-size: 14px;
-  }
-
-  .header {
-    padding: 5px;
   }
 }

@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FiSend, FiPaperclip } from 'react-icons/fi';
@@ -7,7 +6,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [documentText, setDocumentText] = useState('');
-  const [darkMode, setDarkMode] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); 
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -42,12 +41,9 @@ const Chatbot = () => {
   };
 
   return (
-    <div className={`chat-container ${darkMode ? 'dark' : ''}`}>
+    <div className={`chat-container ${isVisible ? 'visible' : ''}`}>
       <div className="header">
         <div className="chatbot-title">Chatbot</div>
-        <button onClick={() => setDarkMode(!darkMode)} className="toggle-button">
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
-        </button>
       </div>
       <div className="messages">
         {messages.map((msg, index) => (

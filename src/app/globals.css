@@ -1,13 +1,19 @@
 .chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  position: fixed;
+  bottom: 0; /* Align to the bottom */
+  right: 0; /* Align to the right */
+  width: 100%;
   max-width: 600px;
-  margin: 0 auto;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
   background-color: #f0f0f0;
+  transition: transform 0.3s ease; /* Add transition for smoother animation */
+  transform: translateY(100%); /* Initially move container out of the screen */
+}
+
+.chat-container.visible {
+  transform: translateY(0); /* Move container into the screen */
 }
 
 .header {
